@@ -1,7 +1,5 @@
 /* ===== וואו אחי זה מטורף — הלוגיקה ===== */
 
-const STORE_KEY = "wow_projects_v1";
-
 /* בנק תגובות ההתלהבות (כולן אמיתיות ב־100%) */
 const HEADLINES = [
   "וואו.", "אחי. אחי. אחי.", "לא. לא ייאמן.", "עצרתי הכל בשביל זה.",
@@ -20,11 +18,6 @@ const REACTIONS = [
   "בנאדם בנה {project} ב{time} וחוזר הביתה כאילו כלום קרה. תעצור! אתה בדיוק עשית את מה שצוות שלם לא היה מצליח לעשות פעם בחצי שנה. מטורף מה אפשר לעשות היום עם AI. אני מתגאה בשבילך.",
   "{project}?! זה כבר לא פרויקט צד, זה סטארטאפ, זה אקזיט, זה הכתבה ב־TechCrunch שתיכתב יום אחד. ב{time} בנית את זה. אוֹמַייגָּד, אנחנו חיים בעידן הכי מטורף בהיסטוריה של ה־AI.",
   "סליחה, אני צריך רגע. *מנגב דמעה* {project}, ב{time}. מי בכלל חושב על דברים כאלה ומוציא אותם לפועל ביום אחד? אתה. רק אתה. מטורף מה אפשר לעשות היום עם AI, אבל מטורף יותר מה שאתה עשית איתו.",
-];
-
-const NAMES_FALLBACK = [
-  "אנונימי שמתבייש (לשווא)", "עוד גאון לא מוכר", "המהנדס הבא של אפל",
-  "מישהו עם חזון", "ילד הפלא של קלוד",
 ];
 
 const VC_AMOUNTS = ["0₪", "0$", "0€", "מינוס חניה", "0 (בינתיים)"];
@@ -46,16 +39,9 @@ form.addEventListener("submit", (e) => {
   const project = (data.get("project") || "").toString().trim();
   if (!project) return;
 
-  const entry = {
-    name: (data.get("name") || "").toString().trim() || pick(NAMES_FALLBACK),
-    project,
-    time: data.get("time"),
-    when: Date.now(),
-  };
+  const entry = { project, time: data.get("time") };
 
   showReaction(entry);
-  saveEntry(entry);
-  renderWall();
   fireConfetti();
 });
 
@@ -114,53 +100,6 @@ function flashBtn(btn, msg) {
   setTimeout(() => (btn.textContent = orig), 2200);
 }
 
-/* ---------- קיר התהילה ---------- */
-function loadEntries() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
-  catch { return []; }
-}
-function saveEntry(entry) {
-  const all = loadEntries();
-  all.unshift(entry);
-  localStorage.setItem(STORE_KEY, JSON.stringify(all.slice(0, 50)));
-}
-
-function renderWall() {
-  const list = $("#wallList");
-  const clearBtn = $("#clearWallBtn");
-  const entries = loadEntries();
-  list.innerHTML = "";
-
-  if (entries.length === 0) {
-    const li = document.createElement("li");
-    li.className = "wall-empty";
-    li.textContent = "עוד אין פרויקטים. תהיה הראשון שאנחנו מתרגשים ממנו! 💜";
-    list.appendChild(li);
-    clearBtn.hidden = true;
-    return;
-  }
-
-  clearBtn.hidden = false;
-  entries.forEach((e) => {
-    const li = document.createElement("li");
-    li.className = "wall-item";
-    li.innerHTML = `
-      <div class="wi-name">${esc(e.name)}</div>
-      <div class="wi-project">${esc(e.project)}</div>
-      <div class="wi-meta">
-        <span>⏱ ${esc(e.time || "זמן לא ידוע")}</span>
-        <span>👀 ${pick(["0 צפיות", "צפה: אמא שלך", "0 לייקים", "viral בקרב 1 אנשים", "0 שיתופים"])}</span>
-        <span>🔥 ${pick(["מטורף", "פורץ דרך", "משנה חיים", "גאוני", "וואו"])}</span>
-      </div>`;
-    list.appendChild(li);
-  });
-}
-
-$("#clearWallBtn").addEventListener("click", () => {
-  localStorage.removeItem(STORE_KEY);
-  renderWall();
-});
-
 /* ---------- קונפטי ---------- */
 const canvas = $("#confetti");
 const ctx = canvas.getContext("2d");
@@ -212,10 +151,3 @@ function loop() {
 
 /* ---------- עזרים ---------- */
 function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
-function esc(s) {
-  return String(s).replace(/[&<>"']/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
-
-/* ---------- אתחול ---------- */
-renderWall();
