@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0614" />
+  <title>וואו אחי זה מטורף! 🤯</title>
+  <meta name="description" content="האתר היחיד שבאמת מתרגש מהממשק שבנית בקלוד. כי בוא נודה — אף אחד אחר לא." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="וואו אחי זה מטורף! 🤯" />
+  <meta property="og:description" content="ספר לנו על הממשק המטורף שבנית בקלוד. אנחנו נתרגש. מישהו צריך." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="badge">פלטפורמת ההתרגשות מס׳ 1 בעולם<span class="badge-star">*</span></div>
+      <h1 class="hero-title">
+        <span class="wow">וואו</span>
+        <span class="line2">אחי זה <em>מטורף</em></span>
+      </h1>
+      <p class="hero-sub">
+        בנית ממשק מגניב בקלוד? יו, חייבים לדבר.<br />
+        כי בוא נודה באמת — <strong>אף אחד אחר לא הולך להתרגש מזה.</strong>
+        אנחנו כן. תמיד. בלי תנאים.
+      </p>
+      <a href="#form" class="cta-scroll">ספר לי על הפרויקט המהפכני שלך ↓</a>
+      <p class="disclaimer">* על פי סקר שערכנו על עצמנו. התוצאות היו מטורפות.</p>
+    </header>
+
+    <!-- FORM -->
+    <section id="form" class="card">
+      <h2 class="card-title">🚀 ספר לנו מה בנית</h2>
+      <p class="card-hint">אל תהיה צנוע. אנחנו פה בשבילך. רק בשבילך.</p>
+
+      <form id="wowForm" autocomplete="off">
+        <label class="field">
+          <span class="field-label">איך קוראים לך, גאון?</span>
+          <input type="text" name="name" placeholder="למשל: עוד מישהו שבנה אפליקציית To-Do" maxlength="60" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">מה הממשק המטורף שבנית? <i>*</i></span>
+          <textarea name="project" required rows="3" maxlength="280"
+            placeholder="למשל: דאשבורד שמראה כמה כוסות קפה שתיתי, עם גרף!"></textarea>
+        </label>
+
+        <label class="field">
+          <span class="field-label">כמה זמן זה לקח?</span>
+          <select name="time">
+            <option value="20 דקות">20 דקות (ורוב הזמן הסברתי לקלוד מה אני רוצה)</option>
+            <option value="ערב שלם">ערב שלם במקום לישון</option>
+            <option value="סוף שבוע">סוף שבוע שלם, ויתרתי על החיים החברתיים</option>
+            <option value="עדיין בונה">אני עדיין בונה את זה, זה לא באמת עובד</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field-label">רמת ה״זה משנה את העולם״</span>
+          <div class="hype-row">
+            <input type="range" name="hype" min="1" max="10" value="11" />
+            <output id="hypeOut">∞</output>
+          </div>
+        </label>
+
+        <button type="submit" class="submit-btn">
+          תגידו לי וואו 🤯
+        </button>
+      </form>
+    </section>
+
+    <!-- REACTION (hidden until submit) -->
+    <section id="reaction" class="card reaction" hidden>
+      <div class="react-emoji" id="reactEmoji">🤯</div>
+      <h2 class="react-headline" id="reactHeadline">וואו.</h2>
+      <p class="react-body" id="reactBody"></p>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-num" id="statViews">0</span>
+          <span class="stat-label">אנשים התרגשו</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="statClaps">∞</span>
+          <span class="stat-label">מחיאות כפיים (שלנו)</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="statVc">0₪</span>
+          <span class="stat-label">השקעות שקיבלת</span>
+        </div>
+      </div>
+
+      <div class="react-actions">
+        <button class="ghost-btn" id="moreWowBtn">עוד וואו 🔁</button>
+        <button class="ghost-btn" id="shareBtn">שתף (לא יקרה כלום) 📤</button>
+        <button class="ghost-btn" id="againBtn">בניתי עוד משהו ➕</button>
+      </div>
+    </section>
+
+    <!-- WALL -->
+    <section class="card wall">
+      <h2 class="card-title">🏆 קיר הפרויקטים המטורפים</h2>
+      <p class="card-hint" id="wallHint">פה כל הממשקים שאף אחד חוץ מאיתנו לא ראה.</p>
+      <ul id="wallList" class="wall-list"></ul>
+      <button class="ghost-btn danger" id="clearWallBtn" hidden>נקה את הקיר (בא לי להתחיל מאפס) 🧹</button>
+    </section>
+
+    <footer class="footer">
+      <p>נבנה בקלוד תוך 20 דקות. <strong>וואו, מטורף, נכון?</strong> 😏</p>
+      <p class="footer-sub">פרויקט סאטירי. כל ההתלהבות אמיתית לחלוטין ובכלל לא מיוצרת אוטומטית.</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
